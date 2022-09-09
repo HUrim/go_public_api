@@ -14,7 +14,7 @@ import (
 )
 
 type Person struct {
-	// id          int     `json:"id"`
+	id          int     `json:"id"`
 	name        string  `json:"name"`
 	country_id  string  `json:"country_id"`
 	probability float32 `json:"probability"`
@@ -47,7 +47,7 @@ func getPersonsQuery(db *sql.DB) ([]Person, error) {
 
 	for rows.Next() {
 		var person Person
-		if err := rows.Scan(&person.name, &person.country_id,
+		if err := rows.Scan(&person.id, &person.name, &person.country_id,
 			&person.probability); err != nil {
 			return persons, nil
 		}
