@@ -72,15 +72,6 @@ func getPersons(c echo.Context) error {
 
 	var jsonResponse string
 
-	// for i := 0; i < len(persons); i++ {
-	// 	append(jsonResponse, [string]string{
-	// 		"id":          strconv.Itoa(persons[0].id),
-	// 		"name":        persons[0].name,
-	// 		"country_id":  persons[0].country_id,
-	// 		"probability": fmt.Sprintf("%f", persons[0].probability),
-	// 	})
-	// }
-
 	return c.JSON(http.StatusOK, string(jsonResponse)) ///
 }
 
@@ -111,13 +102,13 @@ func addPerson(c echo.Context) error {
 
 	body, err := ioutil.ReadAll(c.Request().Body)
 	if err != nil {
-		log.Printf("Failed reading: ", err)
+		log.Printf("Failed reading: %s", err)
 		return c.String(http.StatusInternalServerError, "")
 	}
 
 	err = json.Unmarshal(body, &personName)
 	if err != nil {
-		log.Printf("Failed unmarshalling: ", err)
+		log.Printf("Failed unmarshalling: %s", err)
 		return c.String(http.StatusInternalServerError, "")
 	}
 
@@ -142,7 +133,7 @@ func addPerson(c echo.Context) error {
 	// Create
 	createPerson(db, Person{name: name, country_id: country_id, probability: probability})
 
-	return c.String(http.StatusOK, "added fshije")
+	return c.String(http.StatusOK, personName.Name+" added succesfully")
 }
 
 func deleteExistingPerson(c echo.Context) error {
@@ -168,7 +159,7 @@ func deleteExistingPerson(c echo.Context) error {
 
 	fmt.Println(personName.Name)
 
-	return c.String(http.StatusOK, "fdfr")
+	return c.String(http.StatusOK, personName.Name+" deleted successfully")
 }
 
 func responseFromApi(nameForApi string) []byte {
@@ -219,9 +210,9 @@ func main() {
 	e.GET("/api/names/", getPersons) // get
 	// e.GET("https://api.nationalize.io/:name", readFromAPI)
 
-	e.POST("/api/names/:", addPerson) // post
+	e.POST("/api/names/", addPerson) // post
 
-	e.DELETE("/api/name/:name", deleteExistingPerson) //delete
+	e.DELETE("/api/name/", deleteExistingPerson) //delete
 
 	e.Start(":9191")
 }
