@@ -6,6 +6,8 @@ import (
 )
 
 func main() {
+	// create if not exists
+	createTable(dbConnection())
 
 	e := echo.New()
 

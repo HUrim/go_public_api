@@ -4,8 +4,16 @@ import (
 	"database/sql"
 )
 
+func createTable(db *sql.DB) {
+	// CreateTable
+	_, err := db.Exec("CREATE TABLE IF NOT EXISTS Name (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50), country_id CHAR(2), probability FLOAT)")
+	if err != nil {
+		panic(err)
+	}
+}
+
 func getPersonsQuery(db *sql.DB) ([]Person, error) {
-	// Read
+	// getPersons
 	rows, err := db.Query("SELECT * FROM Name")
 	if err != nil {
 		return nil, err
